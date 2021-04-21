@@ -1,6 +1,10 @@
-const API_URL = 'https://localhost:3333';
+const API_URL = 'http://localhost:3333';
 
-export function createSession({ handle, password }) {
+export async function createSession({ handle, password }) {
+  await new Promise((resolve) => {
+    setTimeout(resolve, 2000);
+  });
+
   return fetch(`${API_URL}/session`, {
     method: 'POST',
     headers: {

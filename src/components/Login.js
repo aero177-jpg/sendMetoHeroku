@@ -31,18 +31,25 @@ class Login extends React.Component {
     const { handle, password } = this.state.loginForm;
 
     try {
-      this.setState({ isLoggingIn: true, error: null });
-      const { token, error } = await createSession({ handle, password });
+      this.setState({
+        isLoggingIn: true,
+        error: null
+      });
+      
+      const result = await createSession({
+        handle,
+        password,
+      });
 
-      if (error) {
-        throw new Error(error);
+      if (result.error) {
+        throw new Error(result.error);
       }
 
-      if (!token) {
+      if (!result.token) {
         throw new Error('No token received - try again');
       }
 
-      localStorage.setItem('twitter_clone_token', token);
+      localStorage.setItem('twitter_clone_token', result.token);
       history.push('/');
     } catch (error) {
       this.setState({ error, isLoggingIn: false });
@@ -53,7 +60,7 @@ class Login extends React.Component {
     const { error, isLoggingIn } = this.state;
 
     return (
-      <div>
+      <div style={{ textAlign: 'center' }}>
         <h1>Login</h1>
 
         <form>

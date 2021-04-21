@@ -9,7 +9,16 @@ class Feed extends React.Component {
     super(props);
 
     const token = localStorage.getItem('twitter_clone_token');
-    const payload = jwtDecode(token);
+
+    let payload;
+
+    // Avoid crashing the script
+    // if token is not available
+    try {
+      payload = jwtDecode(token);
+    } catch (err) {
+      
+    }
 
     this.state = {
       tweets: [],
@@ -98,9 +107,9 @@ class Feed extends React.Component {
     });
 
     return (
-      <div>
-        <h1>Feed for {name} (@{handle})</h1>
-        <div>
+      <div style={{ width: 500, margin: '0 auto' }}>
+        <h1 style={{ textAlign: 'center' }}>Feed for {name} (@{handle})</h1>
+        <div style={{ textAlign: 'center' }}>
           <input
             type="text"
             placeholder="What's on your mind"
@@ -109,7 +118,7 @@ class Feed extends React.Component {
           />
           <button onClick={this.handleSubmitTweet.bind(this)}>Tweet</button>
         </div>
-        <div>
+        <div style={{ textAlign: 'center' }}>
           <Link to="/logout">Log out</Link>
         </div>
         <div>{tweetElements}</div>
